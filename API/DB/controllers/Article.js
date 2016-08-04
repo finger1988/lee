@@ -64,30 +64,29 @@ exports.save = function(req,res){
 			if(err){
 				res.end(err)
 			}
-			// if(tagID){
-			// 	Tag.findById(tagID,function(err,tag){
-			// 		tag.article.push(model._id)
+			if(tagID){
+				Tag.findById(tagID,function(err,tag){
+					tag.article.push(model._id)
 
-			// 		tag.save(function(err,tag){
-			// 			res.json(tag)
-			// 		})
-			// 	})
-			// }else if(tagName){
-			// 	console.log(5555)
-			// 	var tag = new Tag({
-			// 		name: tagName,
-			// 		article: [model._id]
-			// 	})
+					tag.save(function(err,tag){
+						res.json(tag)
+					})
+				})
+			}else if(tagName){
+				var tag = new Tag({
+					name: tagName,
+					article: [model._id]
+				})
 
-			// 	tag.save(function(err,tag){
-			// 		model.tag = tag._id
-			// 		model.save(function(err,model){
-			// 			if(err){
-			// 				res.end(err)
-			// 			}
-			// 		})
-			// 	})
-			// }
+				tag.save(function(err,tag){
+					model.tag = tag._id
+					model.save(function(err,model){
+						if(err){
+							res.end(err)
+						}
+					})
+				})
+			}
 
 			res.json({success:1})
 		})
